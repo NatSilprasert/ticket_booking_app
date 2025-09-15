@@ -20,7 +20,7 @@ func main() {
 	})
 
 	// Repositories
-	eventRepository := repositories.NewEventRepository(nil)
+	eventRepository := repositories.NewEventRepository(db)
 	
 	// Routing
 	server := app.Group("/api")
