@@ -44,21 +44,22 @@ export function AuthenticationProvider( {children }: PropsWithChildren) {
     async function authenicate(authMode: "login" | "register", email: string, password: string): Promise<void> {
         try {
             setIsLoadingAuth(true);
-
+            
             const response = await userService[authMode]({ email, password });
-
+            
             if (response) {
                 const { data } = response;
                 const { user, token } = data;
-
+                
                 await AsyncStorage.setItem("token", token);
                 await AsyncStorage.setItem("user", JSON.stringify(user));
                 setUser(user);
                 router.replace("/(authed)/(tabs)/(events)");
                 setIsLoggedIn(true);
             }
-
+            
         } catch {
+            console.log(1);
             setIsLoggedIn(false);
         } finally {
             setIsLoadingAuth(false);
