@@ -5,7 +5,7 @@ async function createOne(name: string, location: string, date: string): Promise<
     return Api.post("event", { name, location, date })
 }
 
-async function getOne(id: string): Promise<EventResponse> {
+async function getOne(id: number): Promise<EventResponse> {
     return Api.get(`/event/${id}`)
 }
 
@@ -13,11 +13,11 @@ async function getAll() {
     return Api.get("/event")
 }
 
-async function updateOne(id: string, name: string, location: string, date: string): Promise<EventResponse> {
+async function updateOne(id: number, name: string, location: string, date: string): Promise<EventResponse> {
     return Api.put(`/event/${id}`, { name, location, date })
 }
 
-async function deleteOne(id: string): Promise<null> {
+async function deleteOne(id: number): Promise<null> {
     return Api.delete(`/event/${id}`)
 }
 

@@ -37,7 +37,7 @@ export default function TabLayout() {
             showFor: [],
             name: "settings",
             displayName: "Settings",
-            icon: "cog",
+            icon: "settings",
             options: {
                 headerShown: true
             }
