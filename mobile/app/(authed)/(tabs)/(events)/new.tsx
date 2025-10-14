@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button";
+import DateTimePicker from "@/components/DateTimePicker";
 import { Input } from "@/components/Input";
 import { Text } from "@/components/Text";
 import { VStack } from "@/components/VStack";
@@ -26,6 +27,10 @@ export default function NewEvent() {
         } finally {
             setIsSubmitting(false);
         }
+    }
+
+    function onChangeDate(date?: Date) {
+        setDate(date || new Date());
     }
 
     useEffect(() => {
@@ -61,7 +66,10 @@ export default function NewEvent() {
 
             <VStack gap={5}>
                 <Text ml={10} fontSize={14} color="gray">Date</Text>
-                {/* DateTimePicker */}
+                <DateTimePicker 
+                    onChange={onChangeDate}
+                    currentDate={date}
+                />
             </VStack>
 
             <Button

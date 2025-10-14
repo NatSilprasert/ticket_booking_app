@@ -5,11 +5,10 @@ import TabBarIcon from "@/components/navigation/TabBarIcon";
 import { Text } from "@/components/Text";
 import { VStack } from "@/components/VStack";
 import { useAuth } from "@/context/AuthContext";
-import { useOnScreenListener } from "@/hooks/useOnScreenListener";
 import { eventService } from "@/services/event";
 import { Event } from "@/types/event";
 import { UserRole } from "@/types/user";
-import { router, useNavigation } from "expo-router";
+import { router, useFocusEffect, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, FlatList, Pressable, TouchableOpacity } from "react-native";
 
@@ -33,7 +32,7 @@ export default function EventsScreen() {
         }
     }
 
-    const fetchEvents = useCallback(async () => {
+    const fetchEvents = async () => {
         try {
             setIsLoading(true);
             const response = await eventService.getAll();
@@ -43,9 +42,11 @@ export default function EventsScreen() {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }
 
-    useOnScreenListener("focus", fetchEvents);
+    useFocusEffect(useCallback(() => {
+        fetchEvents();
+    }, []));
 
     useEffect(() => {
         navigation.setOptions({

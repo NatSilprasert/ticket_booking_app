@@ -1,12 +1,12 @@
 import { Button } from "@/components/Button";
+import DateTimePicker from "@/components/DateTimePicker";
 import { Input } from "@/components/Input";
 import TabBarIcon from "@/components/navigation/TabBarIcon";
 import { Text } from "@/components/Text";
 import { VStack } from "@/components/VStack";
-import { useOnScreenListener } from "@/hooks/useOnScreenListener";
 import { eventService } from "@/services/event";
 import { Event } from "@/types/event";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Pressable } from "react-native";
 
@@ -53,7 +53,7 @@ export default function EventDetailScreen() {
             )
 
             router.back();
-            
+
         } catch (error) {
             Alert.alert("Error", "Failed to fetch event")            
         } finally {
@@ -70,7 +70,9 @@ export default function EventDetailScreen() {
         }
     }, [id, router]);
 
-    useOnScreenListener("focus", fetchEvent);
+    useFocusEffect(useCallback(() => {
+        fetchEvent();
+    }, []));
 
     useEffect(() => {
         navigation.setOptions({
@@ -116,7 +118,10 @@ export default function EventDetailScreen() {
 
             <VStack gap={5}>
                 <Text ml={10} fontSize={14} color="gray">Date</Text>
-                {/* DateTimePicker */}
+                <DateTimePicker 
+                    onChange={(date) => updateField("date", date || new Date())}
+                    currentDate={new Date(eventData?.date || new Date())}
+                />
             </VStack>
 
             <Button
