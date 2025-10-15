@@ -1,13 +1,17 @@
-import { Tabs } from "expo-router";
+import { RelativePathString, Tabs } from "expo-router";
 import React, { ComponentProps } from "react";
 import { Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import TabBarIcon from "@/components/navigation/TabBarIcon";
+import { UserRole } from "@/types/user";
+import { useAuth } from "@/context/AuthContext";
 
 export default function TabLayout() {
+    const { user } = useAuth();
+
     const tabs = [
         {
-            showFor: [],
+            showFor: [UserRole.Attendee, UserRole.Manager],
             name: "(events)",
             displayName: "Events",
             icon: "calendar",
@@ -16,7 +20,7 @@ export default function TabLayout() {
             }
         },
           {
-            showFor: [],
+            showFor: [UserRole.Attendee],
             name: "(tickets)",
             displayName: "My Tickets",
             icon: "ticket",
@@ -25,7 +29,7 @@ export default function TabLayout() {
             }
         },
           {
-            showFor: [],
+            showFor: [UserRole.Manager],
             name: "scan-ticket",
             displayName: "Scan Ticket",
             icon: "scan",
@@ -34,7 +38,7 @@ export default function TabLayout() {
             }
         },
           {
-            showFor: [],
+            showFor: [UserRole.Attendee, UserRole.Manager],
             name: "settings",
             displayName: "Settings",
             icon: "settings",
@@ -53,7 +57,9 @@ export default function TabLayout() {
                     options={{
                         ...tab.options,
                         headerTitle: tab.displayName,
-                        // href: tab.showFor.includes()
+                        href: tab.showFor.includes(user?.role!)
+                            ? (tab.name as RelativePathString)
+                            : undefined,
                         tabBarLabel: ({ focused }) => (
                             <Text style={{ color: focused ? "black" : "gray", fontSize: 12 }}>
                                 {tab.displayName}
