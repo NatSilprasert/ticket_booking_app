@@ -1,4 +1,4 @@
-import { RelativePathString, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import React, { ComponentProps } from "react";
 import { Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -58,8 +58,8 @@ export default function TabLayout() {
                         ...tab.options,
                         headerTitle: tab.displayName,
                         href: tab.showFor.includes(user?.role!)
-                            ? (tab.name as RelativePathString)
-                            : undefined,
+                            ? tab.name
+                            : null,
                         tabBarLabel: ({ focused }) => (
                             <Text style={{ color: focused ? "black" : "gray", fontSize: 12 }}>
                                 {tab.displayName}

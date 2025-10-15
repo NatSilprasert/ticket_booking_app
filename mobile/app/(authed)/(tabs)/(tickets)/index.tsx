@@ -1,31 +1,27 @@
 import { HStack } from "@/components/HStack";
 import { Text } from "@/components/Text";
 import { VStack } from "@/components/VStack";
-import { useAuth } from "@/context/AuthContext";
 import { ticketService } from "@/services/ticket";
 import { Ticket } from "@/types/ticket";
-import { UserRole } from "@/types/user";
 import { router, useFocusEffect, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, FlatList, TouchableOpacity } from "react-native";
 
 export default function TicketScreen() {
-    const { user } = useAuth();
     const navigation = useNavigation();
 
     const [isLoading, setIsLoading] = useState(false);
     const [tickets, setTickets] = useState<Ticket[]>([]);
 
     function onGoToEventPage(id: number) {
-        if (user?.role === UserRole.Manager) {
-            router.push(`/(authed)/(tabs)/(tickets)/ticket/${id}`);
-        }
+        router.push(`/(authed)/(tabs)/(tickets)/ticket/${id}`);
     }
 
     async function fetchTickets() {
         try {
             setIsLoading(true)
             const response = await ticketService.getAll();
+            setTickets(response.data);
         } catch (error) {
             Alert.alert("Error", "Failed to fetch tickets")
         } finally {
@@ -38,7 +34,7 @@ export default function TicketScreen() {
     }, []))
 
     useEffect(() => {
-        navigation.setOptions({ HeaderTitle: "Tickets" })
+        navigation.setOptions({ headerTitle: "Tickets" })
     }, [navigation])
 
     return (

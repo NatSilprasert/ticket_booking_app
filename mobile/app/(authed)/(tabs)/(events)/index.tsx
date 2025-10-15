@@ -6,6 +6,7 @@ import { Text } from "@/components/Text";
 import { VStack } from "@/components/VStack";
 import { useAuth } from "@/context/AuthContext";
 import { eventService } from "@/services/event";
+import { ticketService } from "@/services/ticket";
 import { Event } from "@/types/event";
 import { UserRole } from "@/types/user";
 import { router, useFocusEffect, useNavigation } from "expo-router";
@@ -18,8 +19,9 @@ export default function EventsScreen() {
     const [isLoading, setIsLoading] = useState(false);
     const [events, setEvents] = useState<Event[]>([]);
 
-    function buyTicket(id: number) {
+    async function buyTicket(id: number) {
         try {
+            await ticketService.createOne(id);
             Alert.alert("Success", "Ticket purchased successfully!")
         } catch (error) {
             Alert.alert("Error", "Failed to buy ticket");

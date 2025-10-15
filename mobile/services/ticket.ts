@@ -1,4 +1,4 @@
-import { Ticket, TicketResponse } from "@/types/ticket"
+import { Ticket, TicketListResponse, TicketResponse } from "@/types/ticket"
 import { Api } from "./api"
 import { ApiResponse } from "@/types/api"
 
@@ -10,7 +10,7 @@ async function getOne(id: number): Promise<ApiResponse<{ ticket: Ticket, qrcode:
     return Api.get(`/ticket/${id}`)
 }
 
-async function getAll(): Promise<TicketResponse> {
+async function getAll(): Promise<TicketListResponse> {
     return Api.get("/ticket");
 }
 

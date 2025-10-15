@@ -12,12 +12,14 @@ export default function TicketDetailScreen() {
 
     const [ticket, setTicket] = useState<Ticket | null>(null);
     const [qrcode, setQrcode] = useState<string | null>(null);
+    const [name, setName] = useState("ticket");
 
     async function fetchTicket() {
         try {
             const { data } = await ticketService.getOne(Number(id));
             setTicket(data.ticket);
             setQrcode(data.qrcode);
+            setName(data.ticket.event.name);
         } catch (error) {
             router.back();
         }
@@ -28,7 +30,7 @@ export default function TicketDetailScreen() {
     }, []))
 
     useEffect(() => {
-        navigation.setOptions({ HeaderTitle: "tickets" })
+        navigation.setOptions({ headerTitle: name })
     }, [navigation])
 
     if (!ticket) return null;
@@ -53,7 +55,7 @@ export default function TicketDetailScreen() {
                 style={{ borderRadius: 20 }}
                 width={300}
                 height={300}
-                source={{ uri: `data:image/png:base64,${qrcode}` }}
+                source={{ uri: `data:image/png;base64,${qrcode}` }}
             />
         </VStack>
     );
