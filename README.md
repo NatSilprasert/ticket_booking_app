@@ -1,7 +1,6 @@
 # Ticket Booking App (Mobile)
 
-React Native & Golang practice project
-
+Full Stack Mobile App using React Native and Golang.
 
 ## Tech Stack
 
